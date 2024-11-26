@@ -14,20 +14,41 @@ What is the span of the parallel program, in terms of worst-case $\Theta$? Hint:
 It may help to consider the DAG of the parallel program.
 
 ## Runtime Anaylsis, Maxie M.
-### Recursive Mergesort 
-- will recursively divide array and will perform merge operation
-- each recusive call to sort the left and right halves can in parallel
-  - Although merging of these halves must happen sequentially
-- **depth of recursion at each level:** $log(n)$
-- **merge operation processes:** $\Theta(n)$
-- **span of the parallel program:** $\Theta(n)$
-### Iterative Mergesort 
-- splits the array into sub-arrays and performs merges in parallel within each iteration
-- **span of the parallel program:** $\Theta(n)$
+### Recursive Parallel Mergesort 
+#### Work 
+- The merging step processes all elements in the array at each level of recursion
+  - Takes: $\Theta(n)$
+- The **depth** of recursions is $log(n)$
+  - As the array is halved at each step
+- **Total Work Arcoss All Levels:** $\Theta(n log(n))$
+#### Span
+- This is determined by the merge operations along the recursion tree
+- Merging at each level happens sequentially
+- The **depth** of recursion is $log(n)$
+  - merging at each level takes $\Theta(n)$ for the critical path 
+- Since the merge at each level cannot be parallelized further
+  - the **span** is $\Theta(log(n))$
+#### Total Time Complexity of Recursive Parallel Mergesort 
+- **Total Time Complexity:** $\Theta(n log(n))$ 
+### Iterative Parallel Mergesort 
+#### Work 
+- Array is divided into progressively larger subarrays and merged iteratively
+- All elements in the array are processed in each iteration
+  - Takes: $\Theta(n)$
+- The number of iterations is $log(n)$
+  - corresponding to the number of levels of merging 
+- **Total Work Across All Iterations:** $\Theta(n log(n))$
+#### Span 
+- Multiple merge operations are perfirmed in parakkek within each iteration
+- Merging is sequential for each subarray
+  - **Merge Operation on Single Subarray Takes:** $\Theta(log(n))$
+- The number of iterations will determine the span of the program
+  - There is $log(n)$ iteration, which each involve parallel merges 
+- Span is dominated by the sequential merging at each level
+  - $\Theta(log(n))$
 ### Conclusion 
-- The *spam of the parallel program*, in the terms of *worst-case $\Theta$* is $\Theta(n)$
-  - the merge operations at each level form the critical path
-  - there's no way to parallelize them further
+- **Total Time Complexity:** $\Theta(n log(n))$
+- **Span:** $\Theta(log(n))$
 ### Plagiarism Statement: 
 I certify that I have listed all sources used to complete this exercise, including the use of any Large Language Models. All of the work is my own, except where stated otherwise. I am aware that plagiarism carries severe penalties and that if plagiarism is suspected, charges may be filed against me without prior notice.
 ### Resources:
